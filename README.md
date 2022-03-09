@@ -1,1 +1,1 @@
-SelectorApp es una componente que va mostrando meses anteriores a una mes actual.
+SelectorApp selecciona meses anteriores a uno actual
