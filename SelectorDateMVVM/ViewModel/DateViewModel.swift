@@ -28,6 +28,7 @@ class DateViewModel: ObservableObject {
   @Published var listDataInView : [String]  = []
   private var listDataInVM : [MobileUptake] = []
   
+  @Published var modeloInView : MobileUptake?
   private var modeloInVM : MobileUptake?
   
   
@@ -42,11 +43,11 @@ class DateViewModel: ObservableObject {
     self.getInitView()
     
     //estado inicial de la componente List in View con datos mokeados
-    self.fecthDataMock(dateconsumo: dateNowInVM)
+    modeloInView = self.fecthDataMock(dateconsumo: dateNowInVM)
   }
   
 
-  func fecthDataMock(dateconsumo: String) {
+  func fecthDataMock(dateconsumo: String) -> MobileUptake {
 
     let quidmobil : String = ""
    
@@ -57,9 +58,9 @@ class DateViewModel: ObservableObject {
       self.url = "https://apidispmovilesdev.ahimas.es:12208/api/v1/extramobile/\(quidmobil)/\(dateconsumo)"
       self.modeloInVM =  MobileUptake(voiceCost: 1, voiceMinute: 1, voiceTotal: 1, datosTotal: 1, datosCost: 1, datosMB: 1, smsCost: 1, smsCount: 1, smsTotal: 1, lastUpdate: "", voiceUnlimited: 1, guidMobile: quidmobil)
     }
-  
+    self.modeloInView = modeloInVM
     print("EACH_modelo asociado a \(dateconsumo) -->  \(modeloInVM)")
-//    return modeloInVM
+    return modeloInView!
   }
 
   

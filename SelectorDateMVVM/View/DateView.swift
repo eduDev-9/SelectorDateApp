@@ -33,6 +33,11 @@ struct DateView: View {
             Text(">")
           }).disabled(viewModel.disableNextButton)
         }// Fin HStack
+        
+        HStack{
+          Text("dataCost: \(viewModel.modeloInView!.datosCost)")
+          
+        }
                 
       }//fin VStack 
       
