@@ -49,14 +49,3 @@ struct DateView_Previews: PreviewProvider {
     }
 }
 
-
-
-//      NavigationView {
-//        List(viewModel.ListDates, id: \.self) { item in
-//          Text("\(item.dateString)")
-//          Text(viewModel.getDateFormattered(item: item.dateString) ?? "")
-//        }.navigationBarTitle("SelectorDate")
-//          .onAppear{
-//            self.viewModel.fetchData()
-//          }
-//      }
