@@ -10,12 +10,8 @@ import Combine
 
 
 class DateViewModel: ObservableObject {
-  private let url = "..."
+  private var url: String =  ""
   private var task: AnyCancellable?
-  
-  //  @Published var ListDates: [DateModel] = []
-  
-//  private var listDatesMock: [String]   =  ["ENERO 2021", "FEBRERO 2021", "MARZO 2021", "ENERO 2O22", "FEBRERO 2022", "MARZO 2022"]
   
   private var listPreviousMonths: [String] = [] // lo inicializo en el init
   
@@ -29,17 +25,43 @@ class DateViewModel: ObservableObject {
   
   private var numberOfMonths = 12
   
+  @Published var listDataInView : [String]  = []
+  private var listDataInVM : [MobileUptake] = []
+  
+  private var modeloInVM : MobileUptake?
+  
+  
+  
   init() {
     print("EACH_DataViewModel")
-
+    
     dateNowInVM = self.getDateActualFormatted()!
     listPreviousMonths = self.getListPreviousMonths()
     
-    //estado inicial View
+    //estado inicial Buttons + Text in View
     self.getInitView()
-  
     
+    //estado inicial de la componente List in View con datos mokeados
+    self.fecthDataMock(dateconsumo: dateNowInVM)
   }
+  
+
+  func fecthDataMock(dateconsumo: String) {
+
+    let quidmobil : String = ""
+   
+    if dateconsumo == "March 2022" { //initial model
+      self.url = "https://apidispmovilesdev.ahimas.es:12208/api/v1/extramobile/\(quidmobil)/\(dateconsumo)"
+      self.modeloInVM = MobileUptake(voiceCost: 0, voiceMinute: 0, voiceTotal: 0, datosTotal: 0, datosCost: 0, datosMB: 0, smsCost: 0, smsCount: 0, smsTotal: 0, lastUpdate: "", voiceUnlimited: 0, guidMobile: quidmobil)
+    } else {
+      self.url = "https://apidispmovilesdev.ahimas.es:12208/api/v1/extramobile/\(quidmobil)/\(dateconsumo)"
+      self.modeloInVM =  MobileUptake(voiceCost: 1, voiceMinute: 1, voiceTotal: 1, datosTotal: 1, datosCost: 1, datosMB: 1, smsCost: 1, smsCount: 1, smsTotal: 1, lastUpdate: "", voiceUnlimited: 1, guidMobile: quidmobil)
+    }
+  
+    print("EACH_modelo asociado a \(dateconsumo) -->  \(modeloInVM)")
+//    return modeloInVM
+  }
+
   
   func getInitView(){ // estado inicial de la View
     print("EACH_getInitView")
@@ -110,13 +132,14 @@ class DateViewModel: ObservableObject {
     let index = self.listPreviousMonths.firstIndex(of: dateInView)! //Coincide el 1º elemento -> index = 0
     
     dateInView = listPreviousMonths[index-1]
-//    print("EACH_nextDate: \(dateInView)")
     
     if dateInView == "March 2022" {
+      self.fecthDataMock(dateconsumo: dateInView)
       disableNextButton = true
       disablePreviousButton = false //lo dejas tal cual
     } else {
       print("false")
+      self.fecthDataMock(dateconsumo: dateInView)
       disableNextButton = false
       disablePreviousButton = false
     }
@@ -134,30 +157,18 @@ class DateViewModel: ObservableObject {
     
     if dateInView == "March 2021" {  // Si coincide con la última -> Deshabilitas la 1º componente/actualizas la 2ºcomponete/Habilitas la 3º componente
       print("True")
+      self.fecthDataMock(dateconsumo: dateInView)
+      //añadir fetchData....
       disableNextButton = false
       disablePreviousButton = true
     } else {
       print("False")
+      self.fecthDataMock(dateconsumo: dateInView)
       disableNextButton = false
       disablePreviousButton = false
     }
     
     
   }
-  
-  
-  //  func fetchData() {
-  //    task = URLSession.shared.dataTaskPublisher(for: URL(string: url)!)
-  //          .map { $0.data }
-  //          .decode(type: [DateModel].self, decoder: JSONDecoder())
-  //          .replaceError(with: [])
-  //          .eraseToAnyPublisher()
-  //          .receive(on: RunLoop.main)
-  //          .assign(to: \DateViewModel.ListDates, on: self)
-  //
-  //    print("EACH_\(ListDates)")
-  //  }
-  
-  
   
 }
