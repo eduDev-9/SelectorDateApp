@@ -17,24 +17,27 @@ struct DateView: View {
       
       VStack{
         HStack(spacing: 40) {
-          Button(action: {  //
-            print("BACK BUTTON")
+          Button(action: { 
+            
             viewModel.showPreviousView()
           }, label: {
             Text("<")
           }).disabled(viewModel.disablePreviousButton)
          
-          Text(viewModel.dateInView) //desdel viewModel puedo cambiar su valor
+          Text(viewModel.dateInView)
           
           Button(action: {
-            print("NEXT BUTTON")
             viewModel.showNextView()
           }, label: {
             Text(">")
           }).disabled(viewModel.disableNextButton)
-        }// Fin HStack
+        }
+        
+        HStack{
+          Text("dataCost: \(viewModel.modeloInView!.datosCost)")
+        }
                 
-      }//fin VStack 
+      }
       
 
     }
@@ -46,14 +49,3 @@ struct DateView_Previews: PreviewProvider {
     }
 }
 
-
-
-//      NavigationView {
-//        List(viewModel.ListDates, id: \.self) { item in
-//          Text("\(item.dateString)")
-//          Text(viewModel.getDateFormattered(item: item.dateString) ?? "")
-//        }.navigationBarTitle("SelectorDate")
-//          .onAppear{
-//            self.viewModel.fetchData()
-//          }
-//      }
